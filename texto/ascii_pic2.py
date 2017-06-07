@@ -6,10 +6,7 @@ import unicornhat as unicorn
 
 
 print("""ASCII Pic
-
 You should see a scrolling image, defined in the below variable ASCIIPIC.
-
-If the smiley looks sad, change the rotation from 0 to 180.
 """)
 
 unicorn.set_layout(unicorn.AUTO)
@@ -19,14 +16,14 @@ width,height=unicorn.get_shape()
 
 # Use exactly 8 lines to write your message
 ASCIIPIC = [
-     "XXX  XXX   X   XX      ", #1
-     " X    X        XX      ", #2 
-     " X    X   XX   XX      ", #3
-     " XXXXXX    X   XX      ", #4
-     " X    X    X   XX      ", #5
-     " X    X    X           ", #6
-     "XXX  XXX  XXX  XX      ", #7
-     "                       ", #8
+     " XXXX    XX   XX      ", #1
+     "XX  XX        XX      ", #2 
+     "XX  XX  XXX   XX      ", #3
+     "XX  XX   XX   XX      ", #4
+     "XX  XX   XX   XX      ", #5
+     "XX  XX   XX           ", #6
+     " XXXX   XXXX  XX      ", #7
+     "                      ", #8
     ][::-1]
     
 max_len = max(len(lin) for lin in ASCIIPIC)
