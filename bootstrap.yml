@@ -51,20 +51,22 @@
       state: present
       install_recommends: no
 
-  - name: Install "unicornhat" package
+  - name: Install "unicornhat" python package
     pip:
       name: unicornhat
       executable: pip3
 
-  - copy:
-      src: texto/ascii_oi.py
-      dest: prj/claudinha/texto/ascii_oi.py
-      owner: pi
-      group: pi
-      mode: 0775
+  - name: Install "bitarray" python package
+    pip:
+      name: bitarray
+      executable: pip3
 
-  - name: Teste Unicorn Hat
-    command: python prj/claudinha/texto/ascii_oi.py
+  - synchronize:
+      src: texto/
+      dest: prj/claudinha/
+
+  # - name: Teste Unicorn Hat
+  #   command: python3 prj/claudinha/ascii_oi.py
 
   handlers:
   - name: restart sshd

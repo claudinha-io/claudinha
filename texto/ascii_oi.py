@@ -1,52 +1,63 @@
 #!/usr/bin/env python
 
 from time import sleep
+from bitarray import bitarray
 
 import unicornhat as unicorn
 
-
-print("""ASCII Pic
-You should see a scrolling image, defined in the below variable ASCIIPIC.
-""")
+from ascii_alphabet import *
 
 unicorn.set_layout(unicorn.AUTO)
-unicorn.rotation(0)
+unicorn.rotation(270)
+invert = [7, 6, 5, 4, 3, 2, 1, 0]
 unicorn.brightness(0.5)
 width, height = unicorn.get_shape()
 
-# Use exactly 8 lines to write your message
-ASCIIPIC = [
-     " XXXX    XX   XX      ",  # 1
-     "XX  XX        XX      ",  # 2
-     "XX  XX  XXX   XX      ",  # 3
-     "XX  XX   XX   XX      ",  # 4
-     "XX  XX   XX   XX      ",  # 5
-     "XX  XX   XX           ",  # 6
-     " XXXX   XXXX  XX      ",  # 7
-     "                      ",  # 8
-    ][::-1]
 
-max_len = max(len(lin) for lin in ASCIIPIC)
-
-pic = list(''.join(lin) for lin in zip(*ASCIIPIC))
-
-i = -1
+def message(text):
+    display_message = []
+    phrase = '  ' + text
+    skip = 0
+    for letter in (range(len(phrase))):
+        if skip != 0:
+            skip -= 1
+        else:
+            display_message.append(map_letter(phrase[letter].upper()))
+    return(display_message)
 
 
-def step():
-    global i
-    i = 0 if i>=100*len(pic) else i+1 # avoid overflow
-    for h in range(height):
-        for w in range(width):
-            hPos = (i+h) % len(pic)
-            chr = pic[hPos][w]
-            if chr == ' ':
-                unicorn.set_pixel(w, h, 0, 0, 0)
+def map_letter(letter):
+    print(letter)
+    if letter in mapping:
+        return mapping[letter]
+    else:
+        return mapping['_']
+
+
+def show(word):
+    for w in range(8):
+        for h in range(8):
+            if word[w][h]:
+                unicorn.set_pixel(w, invert[h], 200, 0, 255)
             else:
-                unicorn.set_pixel(w, h, 0, 0, 255)
+                unicorn.set_pixel(w, invert[h], 0, 0, 0)
     unicorn.show()
 
 
-for x in range(0, 100):
-    step()
+def step(input_text):
+    phrase = [bitarray(''), bitarray(''), bitarray(''), bitarray(''), bitarray(''), bitarray(''), bitarray(''), bitarray('')]
+    for w in range(len(input_text)):
+        for i in range(len(input_text[w])):
+            phrase[i] = phrase[i] + input_text[w][i]
+
+    for s in range(len(phrase[0])):
+        show(phrase)
+        sleep(0.1)
+        for i in range(8):
+            phrase[i].pop(0)
+            phrase[i].append(0)
+
+
+for x in range(0, 10):
+    step(message('Lobinha XD'))
     sleep(0.1)
