@@ -65,8 +65,8 @@
       src: texto/
       dest: prj/claudinha/
 
-  # - name: Teste Unicorn Hat
-  #   command: python3 prj/claudinha/ascii_oi.py
+  - name: Teste Unicorn Hat
+    command: python3 prj/claudinha/ascii_oi.py
 
   handlers:
   - name: restart sshd

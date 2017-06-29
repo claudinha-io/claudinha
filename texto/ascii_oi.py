@@ -59,5 +59,5 @@ def step(input_text):
 
 
 for x in range(0, 10):
-    step(message('Lobinha XD'))
+    step(message('Olaaaar'))
     sleep(0.1)
