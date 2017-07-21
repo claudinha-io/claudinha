@@ -4,10 +4,16 @@
     - vars/claudinha.yml
 
   tasks:
+  - name: Add group claudinha
+    group:
+      name: claudinha
+      state: present
+
   - name: Add user remote
     user:
       name=remote
       password={{ vault_remote_password }}
+      group=claudinha
 
   - name: Add SSH public key to user remote
     authorized_key:
@@ -33,6 +39,7 @@
   - name: Run "apt-get update"
     apt:
       update_cache: yes
+      cache_valid_time: 86400
 
   - name: Install "htop" package
     apt:
@@ -61,12 +68,31 @@
       name: bitarray
       executable: pip3
 
-  - synchronize:
+  - name: Create project directory
+    file:
+      path: /src/www
+      state: directory
+      owner: pi
+      group: claudinha
+      mode: 0775
+
+  - name: Synchronize directory
+    synchronize:
       src: texto/
-      dest: prj/claudinha/
+      dest: /opt/claudinha/
+      group: no
+      owner: no
+      delete: yes
+      recursive: yes
+      rsync_opts:
+        - "--no-motd"
+        - "--exclude=.pyc,__pycavhe__,.cache"
 
   - name: Teste Unicorn Hat
-    command: python3 prj/claudinha/ascii_oi.py
+    command: python /opt/claudinha/ascii_text.py
+
+  - name: Teste Unicorn Hat - Blue
+    command: python /opt/claudinha/ascii_text.py blue
 
   handlers:
   - name: restart sshd
