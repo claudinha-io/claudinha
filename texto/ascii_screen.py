@@ -19,12 +19,15 @@ colors['blue'] = (0, 0, 255)          # #0000FF
 colors['yellow'] = (255, 255, 0)      # #FFFF00
 colors['cyan'] = (0, 255, 255)        # #00FFFF
 colors['magenta'] = (255, 0, 255)    # #FF00FF
+colors['pink'] = (0xff, 0x80, 0xff)    # #FF80FF
 
 
 def show(word, color):
     rgb = []
     if color in colors:
         rgb = colors[color]
+    else:
+        rgb = colors['white']
     for w, h in product(range(width), range(height)):
         if word[w][h]:
             unicorn.set_pixel(w, invert[h], rgb[0], rgb[1], rgb[2])
@@ -33,7 +36,7 @@ def show(word, color):
     unicorn.show()
 
 
-def show_display(phrase, color='red'):
+def show_display(phrase, color='white'):
     for s in range(len(phrase[0])):
         show(phrase, color)
         sleep(0.1)

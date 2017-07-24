@@ -1,4 +1,6 @@
-unicornhat==2.1.3
 bitarray==0.8.1
 py==1.4.34
 pytest==3.1.3
+Flask==0.12.2
+gunicorn
+unicornhat==2.1.3

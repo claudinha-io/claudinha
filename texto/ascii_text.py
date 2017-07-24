@@ -4,8 +4,8 @@ from bitarray import bitarray
 from itertools import product
 import sys
 
-from ascii_alphabet import *
-from ascii_screen import *
+from ascii_alphabet import mapping
+from ascii_screen import show_display
 
 
 def message(text):
@@ -35,9 +35,14 @@ def step(input_text):
     return phrase
 
 
-for x in range(0, 2):
-    text = step(message('Teste'))
-    if len(sys.argv) == 2:
-        show_display(text, sys.argv[1])
-    else:
-        show_display(text)
+if __name__ == '__main__':
+    for x in range(0, 2):
+        text = []
+        if len(sys.argv) == 2:
+            text = step(message('Teste'))
+            show_display(text, sys.argv[1])
+        if len(sys.argv) > 2:
+            text = step(message(" ".join(sys.argv[2:])))
+            show_display(text, sys.argv[1])
+        else:
+            show_display(text)

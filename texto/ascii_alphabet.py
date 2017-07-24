@@ -412,6 +412,18 @@ b6 = bitarray('00111100')
 b7 = bitarray('00000000')
 number_9 = [b0, b1, b2, b3, b4, b5, b6, b7]
 
+# :
+b0 = bitarray('00000000')
+b1 = bitarray('00000000')
+b2 = bitarray('00011000')
+b3 = bitarray('00011000')
+b4 = bitarray('00000000')
+b5 = bitarray('00011000')
+b6 = bitarray('00011000')
+b7 = bitarray('00000000')
+symbol_colon = [b0, b1, b2, b3, b4, b5, b6, b7]
+
+
 # Mapping
 
 mapping = {}
@@ -452,3 +464,4 @@ mapping['6'] = number_6
 mapping['7'] = number_7
 mapping['8'] = number_8
 mapping['9'] = number_9
+mapping[':'] = symbol_colon
