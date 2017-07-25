@@ -1,0 +1,5 @@
+---
+
+- name: Start Gunicorn
+  command: /usr/local/bin/gunicorn -c {{ gunicorn_app_dir }}/gunicorn.py ascii_web:app
+           chdir={{ gunicorn_app_dir }}

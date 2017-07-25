@@ -10,7 +10,13 @@ def hello_world():
 
 @app.route('/message')
 def default_message():
-    input_text = strftime("%H:%M:%S")
+    input_text = strftime('%H:%M:%S')
+    text = step(message(input_text))
+    show_display(text, 'blue')
+    return input_text
+
+@app.route('/message/<string:input_text>')
+def input_message(input_text):
     text = step(message(input_text))
     show_display(text, 'blue')
     return input_text

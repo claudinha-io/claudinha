@@ -3,11 +3,9 @@
   vars_files:
     - vars/claudinha.yml
   environment:
-    FLASK_APP: /opt/claudinha/ascii_web.py
     LC_ALL: en_GB.UTF-8
 
-
-  tasks:
+  pre_tasks:
   - name: Add group claudinha
     group:
       name: claudinha
@@ -74,7 +72,7 @@
 
   - name: Create project directory
     file:
-      path: /src/www
+      path: /opt/claudinha
       state: directory
       owner: pi
       group: claudinha
@@ -92,16 +90,21 @@
         - "--no-motd"
         - "--exclude=.pyc,__pycavhe__,.cache"
 
+  roles:
+        - gunicorn
+        - supervisor
+
+  post_tasks:
   - name: Install "claudinha" python dependencies
     pip:
       requirements: /opt/claudinha/requirements.txt
       executable: pip3
+    notify:
+      - Restart Supervisor
 
-  - name: Up the Gunicorn Server
-    shell: nohup gunicorn -w 4 -b 0.0.0.0:5000 ascii_web:app </dev/null >/dev/null 2>&1 &
-    args:
-      chdir: /opt/claudinha/
-
+  - name: Test claudinha app
+    uri:
+      url: http://127.0.0.1
 
   handlers:
   - name: restart sshd
