@@ -19,7 +19,6 @@ colors['blue'] = (0, 0, 255)          # #0000FF
 colors['yellow'] = (255, 255, 0)      # #FFFF00
 colors['cyan'] = (0, 255, 255)        # #00FFFF
 colors['magenta'] = (255, 0, 255)    # #FF00FF
-colors['pink'] = (0xff, 0x80, 0xff)    # #FF80FF
 
 
 def show(word, color):

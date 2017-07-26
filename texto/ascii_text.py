@@ -36,13 +36,12 @@ def step(input_text):
 
 
 if __name__ == '__main__':
-    for x in range(0, 2):
-        text = []
-        if len(sys.argv) == 2:
-            text = step(message('Teste'))
-            show_display(text, sys.argv[1])
-        if len(sys.argv) > 2:
-            text = step(message(" ".join(sys.argv[2:])))
-            show_display(text, sys.argv[1])
-        else:
-            show_display(text)
+    text = []
+    if len(sys.argv) == 2:
+        text = step(message(sys.argv[1]))
+        show_display(text)
+    if len(sys.argv) > 2:
+        text = step(message(" ".join(sys.argv[2:])))
+        show_display(text, sys.argv[1])
+    else:
+        show_display(step(message('Teste')))
