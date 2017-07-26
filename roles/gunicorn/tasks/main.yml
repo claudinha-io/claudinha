@@ -11,7 +11,5 @@
   template:
         src=gunicorn.py.j2
         dest={{ gunicorn_app_dir }}/gunicorn.py
-  notify:
-        - Start Gunicorn
 
 

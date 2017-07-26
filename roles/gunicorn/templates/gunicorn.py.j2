@@ -1,9 +1,10 @@
 import multiprocessing
 
 bind = "0.0.0.0:80"
-workers = 4 #
+workers = 4
 daemon = True
 accesslog='/var/log/flask-access.log'
 loglevel='debug'
 errorlog='/var/log/flask-error.log'
 pythonpath='/opt/claudinha'
+worker_class = 'sync'
