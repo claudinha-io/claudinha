@@ -1,15 +1,13 @@
 ---
 - name: Install Gunicorn
   pip:
-        chdir={{ gunicorn_app_dir }}
-        name=gunicorn
-        # virtualenv=venv
+    name: gunicorn
+    virtualenv: /opt/claudinha/venv
+    virtualenv_command: pip3
   register: gunicorninstalled
 
 - name: Create Template Configuration
   when: gunicorninstalled|success
   template:
         src=gunicorn.py.j2
-        dest={{ gunicorn_app_dir }}/gunicorn.py
-
-
+        dest={{ gunicorn_app_dir }}/frontend/gunicorn.py

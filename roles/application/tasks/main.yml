@@ -1,0 +1,15 @@
+---
+  - name: Setup "claudinha" python module
+    pip:
+      name: /opt/claudinha/backend
+      extra_args: '-e'   # this creates a link rather then copying the files
+      virtualenv_command: pip3
+      virtualenv: /opt/claudinha/venv
+
+  - name: Install "front-end" python dependencies
+    pip:
+      requirements: /opt/claudinha/frontend/requirements.txt
+      virtualenv_command: pip3
+      virtualenv: /opt/claudinha/venv
+    notify:
+          - Restart Gunicorn

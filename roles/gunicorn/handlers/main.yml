@@ -1,5 +1,5 @@
 ---
 
 - name: Start Gunicorn
-  command: /usr/bin/python3 /usr/local/bin/gunicorn ascii_web:app -c {{ gunicorn_app_dir }}/gunicorn.py
-           chdir={{ gunicorn_app_dir }}
+  command: sudo /opt/claudinha/venv/bin/python3 /opt/claudinha/venv/bin/gunicorn app:app -c {{ gunicorn_app_dir }}/frontend/gunicorn.py
+  #command: supervisorctl restart gunicorn

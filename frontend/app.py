@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request
-from ascii_text import *
+from claudinha_text.ascii_text import *
 from time import strftime
 
 app = Flask(__name__)

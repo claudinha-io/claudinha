@@ -1,12 +1,20 @@
 ---
 - name: Install Supervisor
   apt:
-        name=supervisor
-        state=present
+    name: supervisor
+    state: present
+  register: supervisorinstalled
 
 - name: Create Configuration
-  template: 
-        src=gsupervisor.conf
-        dest=/etc/supervisor/conf.d/gunicorn.conf
+  when: supervisorinstalled|success
+  template:
+    src: gsupervisor.conf
+    dest: /etc/supervisor/conf.d/gunicorn.conf
+
+- name: Create Configuration
+  when: supervisorinstalled|success
+  template:
+    src: supervisord.conf
+    dest: /etc/supervisor/supervisord.conf
   notify:
         - Restart Supervisor

@@ -1,5 +1,5 @@
 # claudinha
-Expermimentos com uma pequena nuvem com Unicorn Hat
+Experimentos com uma pequena nuvem com Raspberry Pi e Unicorn Hat
 
 ## Comandos via terminal
 

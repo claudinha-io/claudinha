@@ -6,5 +6,6 @@ daemon = True
 accesslog='/var/log/flask-access.log'
 loglevel='debug'
 errorlog='/var/log/flask-error.log'
-pythonpath='/opt/claudinha'
+pythonpath='{{ gunicorn_app_dir }}'
 worker_class = 'sync'
+proc_name = 'flask'

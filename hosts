@@ -1,2 +1,6 @@
 [claudinha]
-claudia.local      ansible_connection=ssh        ansible_user=pi
+claudia1.local      ansible_host=10.75.20.34      ansible_connection=ssh        ansible_user=pi
+#claudia2.local      ansible_connection=ssh        ansible_user=pi
+#claudia3.local      ansible_connection=ssh        ansible_user=pi
+#claudia4.local      ansible_connection=ssh        ansible_user=pi
+#claudia5.local      ansible_connection=ssh        ansible_user=pi

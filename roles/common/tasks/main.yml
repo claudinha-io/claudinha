@@ -1,0 +1,75 @@
+---
+  - name: Hostname | Update the hostname - (hostname cmd)
+    command: "sudo hostname {{ inventory_hostname }}"
+
+  - name: Hostname | Set the hostname
+    hostname:
+      name: "{{ inventory_hostname }}"
+
+  - name: Hostname | Update the hostname - (/etc/hosts)
+    lineinfile:
+      dest: /etc/hosts
+      regexp: "^{{ ansible_eth0.ipv4.address }}"
+      line: "{{ ansible_eth0.ipv4.address }}    {{ inventory_hostname }}   {{ inventory_hostname_short }}"
+      state: present
+
+  - name: Add group claudinha
+    group:
+      name: claudinha
+      state: present
+
+  - name: Add user remote
+    user:
+      name: remote
+      password: "{{ vault_remote_password }}"
+      group: claudinha
+
+  - name: Add SSH public key to user remote
+    authorized_key:
+      user: remote
+      key: "{{ lookup('file', 'files/workstation.pub') }}"
+
+  - name: Add remote user to sudoers
+    lineinfile:
+      dest: /etc/sudoers
+      regexp: '^remote ALL'
+      line: 'remote ALL=(ALL) NOPASSWD:ALL'
+      state: present
+
+  - name: Disallow root SSH access
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^PermitRootLogin"
+      line: "PermitRootLogin no"
+      state: present
+    notify:
+      - restart sshd
+
+  - name: Run "apt-get update"
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install "htop" package
+    apt:
+      name: htop
+      state: present
+
+  - name: Install "python3-pip" package
+    apt:
+      name: python3-pip
+      state: present
+      install_recommends: no
+
+  - name: Install "python3-dev" package
+    apt:
+      name: python3-dev
+      state: present
+      install_recommends: no
+
+  - name: Install "virtualenv" package
+    pip:
+      name: virtualenv
+      state: present
+      virtualenv: /opt/claudinha/venv
+
