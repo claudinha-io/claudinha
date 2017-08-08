@@ -1,5 +1,7 @@
 ---
 
-- name: Start Gunicorn
-  command: sudo /opt/claudinha/venv/bin/python3 /opt/claudinha/venv/bin/gunicorn app:app -c {{ gunicorn_app_dir }}/frontend/gunicorn.py
-  #command: supervisorctl restart gunicorn
+- name: Restart Gunicorn
+  supervisorctl:
+    name: gunicorn
+    state: restarted
+    config: /etc/supervisor/supervisord.conf

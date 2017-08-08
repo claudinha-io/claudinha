@@ -9,5 +9,8 @@
 - name: Create Template Configuration
   when: gunicorninstalled|success
   template:
-        src=gunicorn.py.j2
-        dest={{ gunicorn_app_dir }}/frontend/gunicorn.py
+    src: gunicorn.py.j2
+    dest: '{{ gunicorn_app_dir }}/frontend/gunicorn.py'
+  notify:
+        - Restart Gunicorn
+
