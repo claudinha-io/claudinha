@@ -3,6 +3,10 @@ files/*.pub
 hosts
 ansible.cfg
 playbook.retry
+.project
+.pydevproject
+.settings
+.vagrant
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
