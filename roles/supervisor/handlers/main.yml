@@ -4,3 +4,4 @@
   service:
          name=supervisor
          state=restarted
+  become: True

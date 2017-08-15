@@ -1,0 +1,18 @@
+- hosts: claudinha
+  become: True
+  gather_facts: yes
+  vars_files:
+    - vars/claudinha.yml
+
+  environment:
+    LC_ALL: 'en_US.UTF-8'
+
+  roles:
+  - common
+  - gunicorn
+  - supervisor
+  - application
+
+  post_tasks:
+  - name: Test claudinha app
+    wait_for: host={{ inventory_hostname }} port=80

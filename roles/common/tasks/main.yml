@@ -9,9 +9,15 @@
   - name: Hostname | Update the hostname - (/etc/hosts)
     lineinfile:
       dest: /etc/hosts
-      regexp: "^{{ ansible_eth0.ipv4.address }}"
+      regexp: "^{{ ansible_eth0.ipv4.address[0-7] }}"
       line: "{{ ansible_eth0.ipv4.address }}    {{ inventory_hostname }}   {{ inventory_hostname_short }}"
       state: present
+
+  - name: Change pi password
+    user:
+      name: "pi"
+      update_password: always
+      password: "{{ vault_pi_password }}"
 
   - name: Add group claudinha
     group:
@@ -23,10 +29,16 @@
       name: remote
       password: "{{ vault_remote_password }}"
       group: claudinha
+      home: /home/remote
 
   - name: Add SSH public key to user remote
     authorized_key:
       user: remote
+      key: "{{ lookup('file', 'files/workstation.pub') }}"
+
+  - name: Add SSH public key to user pi
+    authorized_key:
+      user: pi
       key: "{{ lookup('file', 'files/workstation.pub') }}"
 
   - name: Add remote user to sudoers
@@ -50,26 +62,58 @@
       update_cache: yes
       cache_valid_time: 86400
 
-  - name: Install "htop" package
+  - name: Install support softwares and dependencies are installed
     apt:
-      name: htop
-      state: present
+      name: "{{ item }}"
+      state: latest
+      update_cache: yes
+      cache_valid_time: 86400
+    environment:
+      LC_ALL: 'en_US.UTF-8'
+    with_items:
+      - htop
+      - python3-dev
+      - python3-pip
+      - python3-virtualenv
+      - python3-setuptools
+      - curl
+      - rsync
 
-  - name: Install "python3-pip" package
-    apt:
-      name: python3-pip
+  - name: Install support python and dependencies are installed
+    pip:
+      name: "{{ item }}"
       state: present
-      install_recommends: no
+      virtualenv_command: pip3
+      virtualenv_python: python3.4
+    environment:
+      LC_ALL: 'en_US.UTF-8'
+    with_items:
+      - virtualenv
+      - unicornhat
 
-  - name: Install "python3-dev" package
-    apt:
-      name: python3-dev
-      state: present
-      install_recommends: no
+  # - name: Install "python-pip" package
+  #   command: "{{ item.cmd }}"
+  #   become: False
+  #   environment:
+  #     LC_ALL: 'en_US.UTF-8'
+  #   with_items:
+      # - { cmd: 'curl https://bootstrap.pypa.io/get-pip.py -o ~/get-pip.py' }
+      # - { cmd: 'python3 ~/get-pip.py' }
+      # - { cmd: 'curl https://get.pimoroni.com/unicornhat -o ~/unicornhat' }
+      # - { cmd: 'chmod +x ~/unicornhat' }
+      # - { cmd: '~/unicornhat -y' }
 
-  - name: Install "virtualenv" package
+  - name: Create virtualenv directory
+    file:
+      path: /opt/claudinha/venv
+      state: directory
+      owner: "{{ ansible_user }}"
+      group: claudinha
+      mode: 0775
+
+  - name: Install "virtualenv" in directory
     pip:
       name: virtualenv
       state: present
+      virtualenv_python: python3.4
       virtualenv: /opt/claudinha/venv
-

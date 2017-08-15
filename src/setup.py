@@ -8,7 +8,7 @@ setup(name='claudinha_text',
       version='1.0',
       description='Create ASCII scrolling text in Raspberry PI \
         with Unicorn Hat',
-      url='http://github.com/carlosmaniero/pygamii',
+      url='https://github.com/ramalho/claudinha',
       author='Camilla Gomes',
       author_email='lobinhaxd@gmail.com',
       license='MIT',

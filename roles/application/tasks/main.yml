@@ -1,19 +1,59 @@
 ---
+  - name: Create project directory
+    file:
+      path: /opt/claudinha/{{ item.dest }}
+      state: directory
+      owner: "{{ ansible_user }}"
+      group: claudinha
+      mode: 0775
+    with_items:
+      - { dest: 'src' }
+      - { dest: 'backend' }
+
+  - name: Synchronize directory
+    synchronize:
+      src: ./{{ item.dest }}/
+      dest: /opt/claudinha/{{ item.dest }}
+      group: no
+      owner: no
+      delete: yes
+      recursive: yes
+      archive: no
+      rsync_opts:
+        - "--exclude=tests"
+        - "--exclude=.cache"
+        - "--exclude=.pyc"
+        - "--exclude=__pycache__"
+    with_items:
+      - { dest: 'src' }
+      - { dest: 'backend' }
+
+  - name: Install "src" python dependencies
+    pip:
+      requirements: /opt/claudinha/src/requirements.txt
+      virtualenv_command: pip3
+      virtualenv: /opt/claudinha/venv
+
   - name: Setup "claudinha" python module
     pip:
-      name: /opt/claudinha/backend
-      extra_args: '-e'   # this creates a link rather then copying the files
+      name: /opt/claudinha/src
+      # extra_args: '-e'   # this creates a link rather then copying the files
       virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
 
-  - name: Install "front-end" python dependencies
+  - name: Clean "src" path
+    file:
+      state: absent
+      path: "/opt/claudinha/src/"
+
+  - name: Install "back-end" python dependencies
     pip:
-      requirements: /opt/claudinha/frontend/requirements.txt
+      requirements: /opt/claudinha/backend/requirements.txt
       virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
 
-  - name: Restart Gunicorn
-    supervisorctl:
-      name: gunicorn
-      state: restarted
-      config: /etc/supervisor/supervisord.conf
+  # - name: Restart Gunicorn
+  #   supervisorctl:
+  #     name: gunicorn
+  #     state: restarted
+  #     config: /etc/supervisor/supervisord.conf

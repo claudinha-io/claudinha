@@ -4,13 +4,14 @@
     name: gunicorn
     virtualenv: /opt/claudinha/venv
     virtualenv_command: pip3
+    virtualenv_python: python3.4
   register: gunicorninstalled
 
 - name: Create Template Configuration
   when: gunicorninstalled|success
   template:
     src: gunicorn.py.j2
-    dest: '{{ gunicorn_app_dir }}/frontend/gunicorn.py'
+    dest: '{{ gunicorn_app_dir }}/gunicorn.py'
   notify:
         - Restart Gunicorn
 

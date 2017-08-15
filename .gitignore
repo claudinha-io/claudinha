@@ -2,6 +2,7 @@
 files/*.pub
 hosts
 ansible.cfg
+playbook.retry
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
