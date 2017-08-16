@@ -1,6 +1,7 @@
 ---
   - name: Hostname | Update the hostname - (hostname cmd)
-    command: "sudo hostname {{ inventory_hostname }}"
+    command: "hostname {{ inventory_hostname }}"
+    become: True
 
   - name: Hostname | Set the hostname
     hostname:
@@ -78,6 +79,7 @@
       - python3-setuptools
       - curl
       - rsync
+      - git
 
   - name: Install support python and dependencies are installed
     pip:

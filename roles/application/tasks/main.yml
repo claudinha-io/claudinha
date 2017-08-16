@@ -7,44 +7,39 @@
       group: claudinha
       mode: 0775
     with_items:
-      - { dest: 'src' }
+      - { dest: 'module' }
       - { dest: 'backend' }
+      - { dest: 'frontend' }
 
-  - name: Synchronize directory
-    synchronize:
-      src: ./{{ item.dest }}/
-      dest: /opt/claudinha/{{ item.dest }}
-      group: no
-      owner: no
-      delete: yes
-      recursive: yes
-      archive: no
-      rsync_opts:
-        - "--exclude=tests"
-        - "--exclude=.cache"
-        - "--exclude=.pyc"
-        - "--exclude=__pycache__"
-    with_items:
-      - { dest: 'src' }
-      - { dest: 'backend' }
+  - name: Download "claudinha-module" repository
+    git:
+      repo: https://github.com/claudinha-io/claudinha-module.git
+      dest: /opt/claudinha/module/
+      force: yes
 
-  - name: Install "src" python dependencies
+  - name: Download "claudinha-backend" repository
+    git:
+      repo: https://github.com/claudinha-io/claudinha-backend.git
+      dest: /opt/claudinha/backend/
+      force: yes
+
+  - name: Install "claudinha-module" python dependencies
     pip:
-      requirements: /opt/claudinha/src/requirements.txt
+      requirements: /opt/claudinha/module/requirements.txt
       virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
 
   - name: Setup "claudinha" python module
     pip:
-      name: /opt/claudinha/src
+      name: /opt/claudinha/module
       # extra_args: '-e'   # this creates a link rather then copying the files
       virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
 
-  - name: Clean "src" path
+  - name: Clean "module" path
     file:
       state: absent
-      path: "/opt/claudinha/src/"
+      path: "/opt/claudinha/module/"
 
   - name: Install "back-end" python dependencies
     pip:

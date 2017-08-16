@@ -4,5 +4,5 @@
   supervisorctl:
     name: gunicorn
     state: restarted
-    config: /etc/supervisor/conf.d/gunicorn.conf
+    config: /etc/supervisor/supervisord.conf
   become: True
