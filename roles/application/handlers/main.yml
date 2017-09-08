@@ -1,0 +1,8 @@
+---
+
+- name: Restart Gunicorn
+  supervisorctl:
+    name: gunicorn
+    state: restarted
+    config: /etc/supervisor/supervisord.conf
+  become: True

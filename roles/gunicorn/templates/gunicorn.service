@@ -1,0 +1,18 @@
+[Unit]
+Description=gunicorn-flask daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=root
+Group=www-data
+Restart=on-failure
+WorkingDirectory={{ gunicorn_app_dir }}/backend
+ExecStart=/opt/claudinha/venv/bin/python3 /opt/claudinha/venv/bin/gunicorn app:app -c {{ gunicorn_app_dir }}/gunicorn.py
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

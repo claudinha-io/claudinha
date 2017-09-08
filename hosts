@@ -1,8 +1,8 @@
 localhost              ansible_connection=local
 
 [claudinha]
-claudia1.local      ansible_host=10.75.21.135      ansible_connection=ssh        ansible_user=pi
-claudia2.local      ansible_host=10.75.21.134      ansible_connection=ssh        ansible_user=pi       
+# claudia1.local      ansible_host=10.75.21.135      ansible_connection=ssh        ansible_user=pi    
+claudia2.local      ansible_host=10.75.21.134      ansible_connection=ssh        ansible_user=pi    ansible_password=raspberry   
 # claudia3.local      ansible_host=10.75.21.133      ansible_connection=ssh        ansible_user=pi
 # claudia4.local      ansible_host=10.75.21.131      ansible_connection=ssh        ansible_user=pi
 # claudia5.local      ansible_host=10.75.21.132      ansible_connection=ssh        ansible_user=pi

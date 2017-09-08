@@ -1,24 +1,21 @@
 # claudinha
-Experimentos com uma pequena nuvem com Raspberry Pi e Unicorn Hat
+Script de Ansible para provisionar experimentos com uma pequena nuvem com Raspberry Pi e Unicorn Hat
 
-## Comandos via terminal
+@TODO
 
-### Mostrar um Teste no UH
-`python3 ascii_text.py`
+- Testes de Infraestrutura
+- Provisionamento de multiplos ambientes
+- Proxy Reverso
+- Incluir Agente do Travis
 
-### Mostrar um texto com cor padrão no UH
-`python3 ascii_text.py <texto>`
 
-### Mostrar um texto com cor especifica no UH
-`python3 ascii_text.py <cor> <texto>`
+## Comandos de Ansible
 
-- white => rgb(255, 255, 255) => #FFFFFF
-- red => rgb(255, 0, 0) => #FF0000
-- green => rgb(0, 255, 0) => #00FF00
-- blue => rgb(0, 0, 255) => #0000FF
-- yellow => rgb(255, 255, 0) => #FFFF00
-- cyan => rgb(0, 255, 255) => #00FFFF
-- magenta => rgb(255, 0, 255) => #FF00FF
+### Deploy
+`python3 /usr/bin/ansible-playbook -D -i hosts playbook.yml --ask-vault-pass`
+
+### Test
+`ansible-playbook -C -D -i hosts playbook.yml --ask-vault-pass`
 
 ## Comandos via browser
 

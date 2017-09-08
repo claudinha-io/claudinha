@@ -26,15 +26,23 @@
   - name: Install "claudinha-module" python dependencies
     pip:
       requirements: /opt/claudinha/module/requirements.txt
-      virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
+      virtualenv_command: pip3
+      virtualenv_python: python3.4
 
   - name: Setup "claudinha" python module
     pip:
       name: /opt/claudinha/module
-      # extra_args: '-e'   # this creates a link rather then copying the files
-      virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
+      virtualenv_command: pip3
+      virtualenv_python: python3.4
+
+  - name: Setup "claudinha" python module
+    pip:
+      name: /opt/claudinha/module
+      virtualenv: /opt/claudinha/venv
+      virtualenv_command: pip3
+      virtualenv_python: python3.4
 
   - name: Clean "module" path
     file:
@@ -44,11 +52,6 @@
   - name: Install "back-end" python dependencies
     pip:
       requirements: /opt/claudinha/backend/requirements.txt
-      virtualenv_command: pip3
       virtualenv: /opt/claudinha/venv
-
-  # - name: Restart Gunicorn
-  #   supervisorctl:
-  #     name: gunicorn
-  #     state: restarted
-  #     config: /etc/supervisor/supervisord.conf
+      virtualenv_command: pip3
+      virtualenv_python: python3.4

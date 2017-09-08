@@ -14,12 +14,6 @@
       line: "{{ ansible_eth0.ipv4.address }}    {{ inventory_hostname }}   {{ inventory_hostname_short }}"
       state: present
 
-  - name: Change pi password
-    user:
-      name: "pi"
-      update_password: always
-      password: "{{ vault_pi_password }}"
-
   - name: Add group claudinha
     group:
       name: claudinha
@@ -35,11 +29,6 @@
   - name: Add SSH public key to user remote
     authorized_key:
       user: remote
-      key: "{{ lookup('file', 'files/workstation.pub') }}"
-
-  - name: Add SSH public key to user pi
-    authorized_key:
-      user: pi
       key: "{{ lookup('file', 'files/workstation.pub') }}"
 
   - name: Add remote user to sudoers
@@ -80,30 +69,26 @@
       - curl
       - rsync
       - git
+      - snmpd
+      - snmp
+      - nginx
+
+  - name: Add user wwww-data to claudinha
+    user:
+      name: wwww-data
+      group: claudinha
 
   - name: Install support python and dependencies are installed
     pip:
       name: "{{ item }}"
       state: present
-      virtualenv_command: pip3
-      virtualenv_python: python3.4
+      executable: pip3
+    become: True
     environment:
       LC_ALL: 'en_US.UTF-8'
     with_items:
       - virtualenv
       - unicornhat
-
-  # - name: Install "python-pip" package
-  #   command: "{{ item.cmd }}"
-  #   become: False
-  #   environment:
-  #     LC_ALL: 'en_US.UTF-8'
-  #   with_items:
-      # - { cmd: 'curl https://bootstrap.pypa.io/get-pip.py -o ~/get-pip.py' }
-      # - { cmd: 'python3 ~/get-pip.py' }
-      # - { cmd: 'curl https://get.pimoroni.com/unicornhat -o ~/unicornhat' }
-      # - { cmd: 'chmod +x ~/unicornhat' }
-      # - { cmd: '~/unicornhat -y' }
 
   - name: Create virtualenv directory
     file:
@@ -114,8 +99,4 @@
       mode: 0775
 
   - name: Install "virtualenv" in directory
-    pip:
-      name: virtualenv
-      state: present
-      virtualenv_python: python3.4
-      virtualenv: /opt/claudinha/venv
+    command: python3 -m virtualenv --python=/usr/bin/python3 /opt/claudinha/venv

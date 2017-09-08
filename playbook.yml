@@ -9,9 +9,8 @@
 
   roles:
   - common
-  - gunicorn
-  - supervisor
   - application
+  - gunicorn
 
   post_tasks:
   - name: Test claudinha app

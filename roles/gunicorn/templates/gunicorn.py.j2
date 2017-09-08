@@ -1,11 +1,9 @@
 import multiprocessing
 
-bind = "0.0.0.0:80"
+bind = 'unix:/run/gunicorn/socket'
+pid = '/run/gunicorn/pid'
 workers = 4
-daemon = True
 accesslog='/var/log/flask-access.log'
 loglevel='debug'
 errorlog='/var/log/flask-error.log'
-pythonpath='{{ gunicorn_app_dir }}'
-worker_class = 'sync'
-proc_name = 'flask'
+chdir='{{ gunicorn_app_dir }}/backend'
